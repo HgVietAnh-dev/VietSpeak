@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Phân Tích - VietSpeak Academy</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1a3a5f;
+            --accent: #e63946;
+            --white: #ffffff;
+            --bg: #f4f7f6;
+            --text-dark: #2d3436;
+            --transition: all 0.3s ease;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- HEADER (Đồng bộ trang chủ) --- */
+        header {
+            background: var(--white);
+            padding: 1rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            margin-left: 2rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        nav a:hover, nav a.active { color: var(--accent); }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 40px;
+        }
+
+        .page-title span { color: var(--accent); }
+
+        /* --- BOX PHÂN TÍCH --- */
+        .split-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid #eee;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .card h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        /* --- UPLOAD AREA --- */
+        .upload-zone {
+            border: 2px dashed #cbd5e0;
+            padding: 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--accent);
+            background: #fffafa;
+        }
+
+        .upload-zone span {
+            display: block;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .upload-zone input { display: none; }
+
+        /* --- PREVIEW --- */
+        #audioPreview {
+            width: 100%;
+            margin: 15px 0;
+            height: 40px;
+        }
+
+        .preview-img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        /* --- BUTTON --- */
+        .analyze-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .analyze-btn:hover {
+            background: var(--accent);
+            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        /* --- RESULT BOX --- */
+        .result-wrapper {
+            margin-top: 50px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border-left: 8px solid var(--accent);
+        }
+
+        .result-wrapper h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        #result {
+            white-space: pre-line;
+            color: #4a5568;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .split-box { grid-template-columns: 1fr; }
+            header { flex-direction: column; padding: 1rem; }
+            nav { margin-top: 1rem; }
+            nav a { margin: 0 10px; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="logo">VietSpeak</a>
+        <nav>
+            <a href="index.html">Trang chủ</a>
+            <a href="khoa-hoc.html">Khoá học</a>
+            <a href="ai.html">AI Phân Tích</a>
+            <a href="thu-vien.html">Thư viện tài liệu</a>
+            <a href="account.html">Tài khoản</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">Hệ Thống <span>AI Chẩn Đoán</span></h1>
+
+        <div class="split-box">
+            <div class="card">
+                <h2>Phân tích Giọng nói</h2>
+                <label class="upload-zone">
+                    <p style="font-size: 2rem; margin-bottom: 10px;">🎙️</p>
+                    <span>Tải lên file âm thanh (.mp3, .wav)</span>
+                    <input type="file" id="audioInput" accept="audio/*">
+                </label>
+                <audio id="audioPreview" controls style="display:none;"></audio>
+                <button class="analyze-btn" onclick="analyzeAudio()">Bắt đầu phân tích</button>
+            </div>
+
+            <div class="card">
+                <h2>Phân tích Hình ảnh</h2>
+                <label class="upload-zone">
+                    <p style="font-size: 2rem; margin-bottom: 10px;">📸</p>
+                    <span>Tải lên ảnh chân dung thuyết trình</span>
+                    <input type="file" id="imgInput" accept="image/*">
+                </label>
+                <img id="preview" class="preview-img" />
+                <button class="analyze-btn" onclick="analyzeImage()">Kiểm tra phong thái</button>
+            </div>
+        </div>
+
+        <div class="result-wrapper">
+            <h3>Báo cáo chi tiết từ AI</h3>
+            <div id="result">Kết quả phân tích sẽ được hiển thị tại đây sau khi bạn tải file và nhấn nút...</div>
+        </div>
+    </div>
+
+    <script>
+        // --- GIỮ NGUYÊN LOGIC JAVASCRIPT CỦA BẠN NHƯNG CẬP NHẬT GIAO DIỆN ---
+        let OPENAI_API_KEY =
+            "sk-proj-82rQpSfAbL9Wr8ZuVzBfDpH2aQGQ3YjeQ8WNxTBSLkROUlMGSXCE-QtuhcwZCC3Uvxle4gZBwwT3BlbkFJgX3I_Si3A04a3p2y-" +
+            "LDD5kKfMASDOmVbpxviI3LDa-08COZe3lfNRAXSjStlR14VSvYaBeQMEA";
+
+        /* ----------- PREVIEW AUDIO ----------- */
+        document.getElementById("audioInput").onchange = function () {
+            const file = this.files[0];
+            const audio = document.getElementById("audioPreview");
+
+            if (file) {
+                audio.src = URL.createObjectURL(file);
+                audio.style.display = "block";
+            } else {
+                audio.style.display = "none";
+                audio.src = "";
+            }
+        };
+
+        /* ----------- PHÂN TÍCH GIỌNG NÓI ----------- */
+        async function analyzeAudio() {
+            const fileInput = document.getElementById("audioInput");
+            const resultBox = document.getElementById("result");
+
+            if (!fileInput.files[0]) {
+                resultBox.innerText = "Vui lòng chọn file mp3!";
+                return;
+            }
+
+            resultBox.innerText = "Đang phân tích giọng nói...";
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+
+            formData.append("file", file);
+            formData.append("model", "gpt-4o-mini-tts");
+            formData.append("response_format", "text");
+
+            try {
+                const whisperRes = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${OPENAI_API_KEY}` },
+                    body: formData
+                });
+
+                const text = await whisperRes.text();
+
+                const payload = {
+                    model: "gpt-4o-mini",
+                    messages: [{
+                        role: "user",
+                        content:
+                            "Hãy phân tích giọng nói chấm trên thang điểm 10 theo các tiêu chí: 1. Cảm xúc; 2. Tốc độ nói; 3. Sự rõ ràng; 4. Nhấn nhá; 5. Tự tin. Sau đó gợi ý cải thiện. Nội dung giọng nói: " + text
+                    }]
+                };
+
+                const chatRes = await fetch("https://api.openai.com/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${OPENAI_API_KEY}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await chatRes.json();
+                resultBox.innerText = data.choices[0].message.content;
+
+            } catch (err) {
+                resultBox.innerText = "Lỗi kết nối hoặc CORS.\n" + err;
+            }
+        }
+
+
+        /* ----------- PHÂN TÍCH ẢNH ----------- */
+        document.getElementById("imgInput").onchange = function () {
+            const file = this.files[0];
+            const img = document.getElementById("preview");
+
+            img.src = URL.createObjectURL(file);
+            img.style.display = "block";
+        };
+
+        async function analyzeImage() {
+            const fileInput = document.getElementById("imgInput");
+            const resultBox = document.getElementById("result");
+
+            if (!fileInput.files[0]) {
+                resultBox.innerText = "Vui lòng chọn ảnh!";
+                return;
+            }
+
+            resultBox.innerText = "Đang phân tích ảnh...";
+
+            const base64 = await toBase64(fileInput.files[0]);
+
+            const payload = {
+                model: "gpt-4o-mini",
+                messages: [
+                    {
+                        role: "user",
+                        content: [
+                            { type: "text", text: "Hãy nhận xét theo các yếu tố: 1. Tư thế; 2. Trang phục; 3. Nét mặt; 4. Ánh mắt; 5. Phong thái. Chấm điểm 10 và gợi ý phát triển." },
+                            { type: "image_url", image_url: { url: base64 } }
+                        ]
+                    }
+                ]
+            };
+
+            try {
+                const res = await fetch("https://api.openai.com/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${OPENAI_API_KEY}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                resultBox.innerText = data.choices[0].message.content;
+
+            } catch (err) {
+                resultBox.innerText = "Lỗi kết nối hoặc CORS.\n" + err;
+            }
+        }
+
+        /* ----------- BASE64 ----------- */
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
+</body>
+</html>

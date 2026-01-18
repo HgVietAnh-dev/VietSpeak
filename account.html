@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài Khoản Cá Nhân - VietSpeak Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a3a5f;
+            --accent: #e63946;
+            --white: #ffffff;
+            --bg: #f0f2f5;
+            --text: #2d3436;
+            --success: #2ecc71;
+            --transition: all 0.3s ease;
+            --shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: var(--white);
+            padding: 1rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            margin-left: 2rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        /* --- DASHBOARD LAYOUT --- */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        /* --- SIDEBAR TRÁI --- */
+        .profile-sidebar {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            height: fit-content;
+        }
+
+        .avatar-circle {
+            width: 120px;
+            height: 120px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 0 auto 20px;
+            border: 5px solid #e2e8f0;
+        }
+
+        .profile-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .profile-rank {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-list {
+            margin-top: 30px;
+            list-style: none;
+            text-align: left;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* --- NỘI DUNG CHÍNH --- */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+        }
+
+        .course-progress-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: #edf2f7;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 65%; /* Tỉ lệ tiến độ */
+            border-radius: 10px;
+        }
+
+        /* --- NÚT ĐĂNG NHẬP / ĐĂNG KÝ (KHI CHƯA LOGIN) --- */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-primary { background: var(--primary); color: white; border: none; }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">VietSpeak</a>
+        <nav>
+            <a href="index.html">Trang chủ</a>
+            <a href="khoa-hoc.html">Khoá học</a>
+            <a href="ai.html">AI Phân Tích</a>
+            <a href="thu-vien.html">Thư viện tài liệu</a>
+            <a href="account.html">Tài khoản</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="profile-sidebar">
+            <div class="avatar-circle">TH</div>
+            <h2 class="profile-name">Trần Hưng Đạo</h2>
+            <p class="profile-rank">Học viên hạng Vàng</p>
+            
+            <ul class="menu-list">
+                <li class="menu-item active">👤 Thông tin cá nhân</li>
+                <li class="menu-item">📚 Khóa học của tôi</li>
+                <li class="menu-item">🏆 Chứng chỉ & Thành tích</li>
+                <li class="menu-item">⚙️ Cài đặt tài khoản</li>
+                <li class="menu-item" style="color: var(--accent); margin-top: 20px;">🚪 Đăng xuất</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <h1 style="font-family: 'Montserrat'; color: var(--primary);">Chào mừng trở lại!</h1>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-value">02</span>
+                    <span class="stat-label">Khóa học đang học</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">85%</span>
+                    <span class="stat-label">Điểm tự tin trung bình</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">12</span>
+                    <span class="stat-label">Video đã phân tích</span>
+                </div>
+            </div>
+
+            <div class="course-progress-card">
+                <div class="progress-header">
+                    <h3 style="font-family: 'Montserrat';">Khóa Thuyết Trình Cơ Bản</h3>
+                    <span style="font-weight: bold; color: var(--accent);">65% Hoàn thành</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                <p style="font-size: 0.9rem; color: #718096;">Còn 3 bài học: Kỹ thuật xử lý tay và Ánh mắt kết nối.</p>
+                <a href="#" class="btn btn-primary" style="display: inline-block; margin-top: 20px; font-size: 0.8rem;">Tiếp tục học ngay</a>
+            </div>
+
+            <div style="background: var(--primary); color: white; padding: 40px; border-radius: 20px; text-align: center; margin-top: 20px;">
+                <h2>Bắt đầu hành trình của bạn?</h2>
+                <p style="margin-bottom: 25px; opacity: 0.8;">Đăng ký để lưu lại tiến độ học tập và sử dụng AI phân tích không giới hạn.</p>
+                <div class="auth-buttons" style="justify-content: center;">
+                    <a href="#" class="btn btn-primary" style="background: var(--accent);">Đăng ký ngay</a>
+                    <a href="#" class="btn btn-outline" style="color: white; border-color: white;">Đăng nhập</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer style="text-align: center; padding: 40px; color: #a4b0be; font-size: 0.8rem;">
+        &copy; 2024 VietSpeak Academy Personal Portal.
+    </footer>
+
+</body>
+</html>
